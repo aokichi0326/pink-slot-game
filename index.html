@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Pink Classic Slot</title>
+  <style>
+    :root {
+      --pink-1: #fff1f8;
+      --pink-2: #ffd1e8;
+      --pink-3: #ff8ec7;
+      --pink-4: #f04e9f;
+      --pink-5: #bd1f73;
+      --red: #ff4269;
+      --gold: #ffd65a;
+      --ink: #4b1833;
+      --shadow: rgba(123, 24, 78, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 20% 8%, rgba(255, 255, 255, 0.9), transparent 18rem),
+        linear-gradient(180deg, #fff7fb 0%, #ffd7ea 48%, #ffacd4 100%);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+    }
+
+    .game {
+      width: min(100%, 430px);
+      height: min(100dvh - 24px, 820px);
+      min-height: 620px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .cabinet {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 14px 12px 16px;
+      border: 5px solid #ffb1d6;
+      border-radius: 28px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.35), transparent 20%, transparent 80%, rgba(255,255,255,0.3)),
+        linear-gradient(180deg, #ffe4f1 0%, #ff9fcd 35%, #ff78b9 100%);
+      box-shadow:
+        0 18px 40px var(--shadow),
+        inset 0 0 0 3px rgba(255,255,255,0.42),
+        inset 0 -14px 30px rgba(169, 20, 92, 0.22);
+      overflow: hidden;
+    }
+
+    .title-panel {
+      min-height: 86px;
+      border-radius: 18px;
+      border: 3px solid #fff8c8;
+      background: linear-gradient(180deg, #fffbdf 0%, #ffd965 48%, #ffb731 100%);
+      box-shadow:
+        inset 0 3px 0 rgba(255,255,255,0.75),
+        inset 0 -5px 0 rgba(183, 104, 10, 0.2),
+        0 6px 0 #d74291;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .title-panel::before,
+    .title-panel::after {
+      content: "";
+      position: absolute;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0 22%, #ff70b6 24% 52%, #d92c86 55%);
+      top: 14px;
+      box-shadow: 0 0 16px rgba(255,255,255,0.9);
+    }
+
+    .title-panel::before { left: 16px; }
+    .title-panel::after { right: 16px; }
+
+    .title {
+      margin: 0;
+      z-index: 1;
+      text-align: center;
+      font-size: clamp(1.65rem, 8vw, 2.35rem);
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 3px 0 #c61e76, 0 0 12px rgba(255, 66, 143, 0.85);
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      display: block;
+      margin-top: 5px;
+      font-size: 0.78rem;
+      color: #7c254d;
+      text-shadow: none;
+      font-weight: 800;
+    }
+
+    .reel-area {
+      flex: 1;
+      min-height: 300px;
+      border-radius: 20px;
+      border: 5px solid #c72a82;
+      background:
+        linear-gradient(180deg, #601c46 0%, #922461 8%, #ffe5f1 8.5%, #fff8fc 92%, #721c50 92.5%, #441632 100%);
+      padding: 30px 12px;
+      position: relative;
+      box-shadow: inset 0 0 0 4px rgba(255,255,255,0.36), 0 8px 0 #b7287a;
+      display: grid;
+      align-items: center;
+    }
+
+    .payline {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 50%;
+      height: 33.333%;
+      transform: translateY(-50%);
+      border-top: 3px solid rgba(255, 62, 121, 0.9);
+      border-bottom: 3px solid rgba(255, 62, 121, 0.9);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.7), 0 0 18px rgba(255, 49, 129, 0.45);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .payline::before,
+    .payline::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 2px solid white;
+      transform: translateY(-50%);
+      box-shadow: 0 0 10px rgba(255, 43, 113, 0.9);
+    }
+
+    .payline::before { left: -8px; }
+    .payline::after { right: -8px; }
+
+    .reels {
+      height: min(46vh, 350px);
+      min-height: 290px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .reel {
+      overflow: hidden;
+      border-radius: 14px;
+      border: 3px solid #7b1c54;
+      background: #fff;
+      box-shadow: inset 0 0 12px rgba(86, 19, 58, 0.25), 0 5px 0 #9a2869;
+      position: relative;
+    }
+
+    .reel::before,
+    .reel::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 21%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .reel::before {
+      top: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0));
+    }
+
+    .reel::after {
+      bottom: 0;
+      background: linear-gradient(0deg, rgba(255,255,255,0.92), rgba(255,255,255,0));
+    }
+
+    .strip {
+      height: 100%;
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      transition: transform 110ms ease-out;
+    }
+
+    .reel.spinning .strip {
+      transition: none;
+      filter: blur(0.6px);
+    }
+
+    .symbol {
+      display: grid;
+      place-items: center;
+      min-height: 0;
+      padding: 4px;
+      border-bottom: 1px solid rgba(213, 80, 148, 0.15);
+      background: radial-gradient(circle at 50% 50%, #fff 0 45%, #fff7fb 68%, #ffe1ef 100%);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .symbol-inner {
+      width: min(24vw, 86px);
+      height: min(24vw, 86px);
+      max-width: 94%;
+      max-height: 94%;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .icon-text {
+      font-size: clamp(2.15rem, 13vw, 4rem);
+      text-shadow: 0 3px 0 rgba(92, 20, 58, 0.12);
+    }
+
+    .label {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.84);
+      color: #6d1c48;
+      font-size: clamp(0.52rem, 2.4vw, 0.68rem);
+      letter-spacing: 0;
+      box-shadow: 0 1px 4px rgba(104, 20, 65, 0.13);
+    }
+
+    .bar-mark {
+      width: 92%;
+      min-height: 45%;
+      border-radius: 7px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #202020, #050505);
+      color: #fff;
+      font-size: clamp(1.25rem, 7vw, 2.1rem);
+      border: 4px solid #f7d85b;
+      box-shadow: 0 5px 0 #9b1d56, 0 0 14px rgba(247, 216, 91, 0.45);
+    }
+
+    .face-wrap {
+      width: 92%;
+      height: 92%;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 42%, #ffe1b8 0 44%, #f3a76d 45% 54%, #72412b 55% 65%, transparent 66%),
+        radial-gradient(circle at 50% 50%, #fff0bc, #ffbc62);
+      border: 4px solid #ff4aa3;
+      box-shadow: 0 0 0 4px #fff, 0 0 18px rgba(255, 60, 158, 0.75);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .face-wrap::before,
+    .face-wrap::after {
+      content: "";
+      position: absolute;
+      top: 42%;
+      width: 9%;
+      height: 9%;
+      border-radius: 50%;
+      background: #321a18;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.35);
+    }
+
+    .face-wrap::before { left: 33%; }
+    .face-wrap::after { right: 33%; }
+
+    .face-mouth {
+      position: absolute;
+      left: 50%;
+      top: 58%;
+      width: 30%;
+      height: 14%;
+      border-bottom: 4px solid #c93f54;
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+
+    .face-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .face-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      filter: none;
+    }
+
+    .status {
+      min-height: 58px;
+      border-radius: 15px;
+      border: 3px solid #fff;
+      background: linear-gradient(180deg, #fffaff, #ffe3f1);
+      box-shadow: inset 0 -4px 0 rgba(213, 67, 144, 0.12), 0 6px 0 #c72c85;
+      display: grid;
+      place-items: center;
+      padding: 8px 12px;
+      text-align: center;
+      font-size: clamp(1rem, 4.7vw, 1.28rem);
+      font-weight: 900;
+      color: #812255;
+    }
+
+    .status.win {
+      color: #bd1f73;
+      animation: pop 420ms ease;
+    }
+
+    .status.big {
+      color: #fff;
+      background: linear-gradient(90deg, #ff347f, #ffd84d, #ff5eb4, #7dffcf, #ff347f);
+      background-size: 280% 100%;
+      text-shadow: 0 2px 0 #9a1454, 0 0 12px rgba(255,255,255,0.9);
+      animation: rainbow 720ms linear infinite, pop 480ms ease;
+    }
+
+    .controls {
+      min-height: 138px;
+      border-radius: 20px;
+      border: 4px solid #b92379;
+      background: linear-gradient(180deg, #ffe9f4, #ffabd2 58%, #f66aaa);
+      box-shadow:
+        inset 0 3px 0 rgba(255,255,255,0.55),
+        inset 0 -8px 0 rgba(166, 22, 92, 0.2),
+        0 8px 0 #a91e68;
+      padding: 12px 10px 14px;
+      display: grid;
+      grid-template-columns: 0.84fr repeat(3, 1fr);
+      align-items: end;
+      gap: 8px;
+    }
+
+    .lever-zone {
+      height: 112px;
+      display: grid;
+      place-items: end center;
+      position: relative;
+    }
+
+    .lever-button {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .lever-slot {
+      position: absolute;
+      left: 50%;
+      bottom: 9px;
+      width: 40px;
+      height: 24px;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, #7b194e, #421129);
+      box-shadow: inset 0 3px 8px rgba(0,0,0,0.35), 0 2px 0 rgba(255,255,255,0.35);
+    }
+
+    .lever-stick {
+      position: absolute;
+      left: 50%;
+      bottom: 27px;
+      width: 12px;
+      height: 62px;
+      border-radius: 999px;
+      transform-origin: 50% 100%;
+      transform: translateX(-50%) rotate(-22deg);
+      background: linear-gradient(90deg, #8b8b8b, #f8f8f8 44%, #777);
+      box-shadow: 0 5px 8px rgba(87, 18, 57, 0.26);
+      transition: transform 150ms ease, height 150ms ease;
+    }
+
+    .lever-knob {
+      position: absolute;
+      left: 50%;
+      bottom: 80px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      transform: translateX(-88%);
+      background:
+        radial-gradient(circle at 34% 26%, #fff 0 12%, transparent 13%),
+        radial-gradient(circle at 36% 30%, #ff9fca 0 26%, #ff3c95 48%, #bc145f 100%);
+      border: 4px solid #fff;
+      box-shadow: 0 5px 0 #8f174e, 0 0 14px rgba(255, 58, 151, 0.62);
+      transition: transform 150ms ease, bottom 150ms ease;
+    }
+
+    .lever-button:active .lever-stick,
+    .lever-button.pulled .lever-stick {
+      transform: translateX(-50%) rotate(10deg);
+      height: 50px;
+    }
+
+    .lever-button:active .lever-knob,
+    .lever-button.pulled .lever-knob {
+      bottom: 52px;
+      transform: translateX(-30%) scale(0.96);
+    }
+
+    .stop-button {
+      min-width: 0;
+      height: 88px;
+      border: 4px solid #fff;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 25%, #ffeff7 0 18%, transparent 19%),
+        linear-gradient(180deg, #ff5da8 0%, #e92383 56%, #a9155a 100%);
+      color: #fff;
+      font-size: clamp(0.9rem, 4vw, 1.1rem);
+      font-weight: 950;
+      letter-spacing: 0;
+      text-shadow: 0 2px 0 #7e174b;
+      box-shadow:
+        0 9px 0 #7d1649,
+        0 13px 18px rgba(92, 16, 54, 0.24),
+        inset 0 4px 0 rgba(255,255,255,0.45);
+      cursor: pointer;
+      transition: transform 80ms ease, box-shadow 80ms ease, filter 160ms ease;
+    }
+
+    .stop-button:active,
+    .stop-button.pressed {
+      transform: translateY(8px);
+      box-shadow:
+        0 2px 0 #7d1649,
+        0 6px 12px rgba(92, 16, 54, 0.22),
+        inset 0 3px 0 rgba(255,255,255,0.32);
+    }
+
+    .stop-button:disabled {
+      opacity: 0.56;
+      filter: grayscale(0.15);
+      cursor: default;
+    }
+
+    .flash {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 20;
+      background: radial-gradient(circle, rgba(255,255,255,0.95), rgba(255, 49, 144, 0.32) 45%, transparent 70%);
+    }
+
+    .flash.show { animation: flash 620ms ease; }
+    .game.big-shake { animation: shake 520ms ease; }
+    .cabinet.big-glow { animation: cabinetGlow 850ms ease; }
+
+    @keyframes flash {
+      0%, 100% { opacity: 0; }
+      18% { opacity: 1; }
+      42% { opacity: 0.35; }
+      60% { opacity: 0.9; }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translate(0, 0) rotate(0); }
+      15% { transform: translate(-5px, 3px) rotate(-1deg); }
+      30% { transform: translate(5px, -3px) rotate(1deg); }
+      45% { transform: translate(-4px, -2px) rotate(-1deg); }
+      60% { transform: translate(4px, 3px) rotate(1deg); }
+      75% { transform: translate(-2px, 2px) rotate(-0.5deg); }
+    }
+
+    @keyframes cabinetGlow {
+      0%, 100% { filter: none; }
+      25%, 70% { filter: brightness(1.18) saturate(1.35); }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.94); }
+      55% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes rainbow {
+      0% { background-position: 0 0; }
+      100% { background-position: 280% 0; }
+    }
+
+    @media (max-height: 680px) {
+      .game { min-height: 560px; }
+      .title-panel { min-height: 70px; }
+      .reel-area {
+        padding-top: 22px;
+        padding-bottom: 22px;
+      }
+      .reels { min-height: 245px; }
+      .controls { min-height: 122px; }
+      .lever-zone { height: 100px; }
+      .stop-button { height: 78px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="game" id="game">
+    <section class="cabinet" id="cabinet">
+      <header class="title-panel">
+        <h1 class="title">
+          PINK SLOT
+          <span class="subtitle">CLASSIC 3 REELS</span>
+        </h1>
+      </header>
+
+      <section class="reel-area" aria-label="3リールスロット">
+        <div class="payline" aria-hidden="true"></div>
+        <div class="reels">
+          <div class="reel" id="reel0"><div class="strip"></div></div>
+          <div class="reel" id="reel1"><div class="strip"></div></div>
+          <div class="reel" id="reel2"><div class="strip"></div></div>
+        </div>
+      </section>
+
+      <div class="status" id="status" aria-live="polite">レバーを下げてスタート</div>
+
+      <section class="controls" aria-label="操作ボタン">
+        <div class="lever-zone">
+          <button class="lever-button" id="lever" type="button" aria-label="スタートレバー">
+            <span class="lever-slot"></span>
+            <span class="lever-stick"></span>
+            <span class="lever-knob"></span>
+          </button>
+        </div>
+        <button class="stop-button" id="stop0" type="button" disabled>LEFT</button>
+        <button class="stop-button" id="stop1" type="button" disabled>CENTER</button>
+        <button class="stop-button" id="stop2" type="button" disabled>RIGHT</button>
+      </section>
+    </section>
+    <div class="flash" id="flash"></div>
+  </main>
+
+  <script>
+    "use strict";
+
+    const faceSrc = "face.png";
+
+    const reelStrips = [
+      ["bell", "face", "cherry", "bar", "watermelon", "face", "bell", "cherry", "face", "watermelon", "bar", "bell", "face", "cherry", "watermelon", "bell", "bar", "face", "cherry", "bell", "watermelon"],
+      ["watermelon", "cherry", "face", "bell", "bar", "watermelon", "face", "cherry", "bell", "watermelon", "bar", "face", "cherry", "bell", "bar", "watermelon", "face", "bell", "cherry", "watermelon", "bar"],
+      ["cherry", "face", "bell", "bar", "watermelon", "face", "cherry", "bell", "watermelon", "face", "bar", "cherry", "bell", "watermelon", "face", "bar", "bell", "cherry", "face", "watermelon", "bell"]
+    ];
+
+    const symbolMeta = {
+      bell: { text: "🔔", label: "BELL" },
+      watermelon: { text: "🍉", label: "WATER" },
+      cherry: { text: "🍒", label: "CHERRY" },
+      bar: { text: "BAR", label: "" },
+      face: { text: "", label: "FACE" }
+    };
+
+    const winMessages = {
+      bell: "BELL WIN",
+      watermelon: "WATERMELON WIN",
+      cherry: "CHERRY WIN",
+      face: "BIG BONUS"
+    };
+
+    const reels = [...document.querySelectorAll(".reel")].map((el, index) => ({
+      el,
+      stripEl: el.querySelector(".strip"),
+      index,
+      center: 0,
+      spinning: false,
+      stopped: true,
+      timer: null,
+      tickMs: 70 + index * 14
+    }));
+
+    const gameEl = document.getElementById("game");
+    const cabinetEl = document.getElementById("cabinet");
+    const statusEl = document.getElementById("status");
+    const leverEl = document.getElementById("lever");
+    const flashEl = document.getElementById("flash");
+    const stopButtons = [0, 1, 2].map((i) => document.getElementById(`stop${i}`));
+
+    let audioCtx = null;
+    let masterGain = null;
+    let spinOsc = null;
+    let spinGain = null;
+    let spinLfo = null;
+    let spinTickTimer = null;
+    let hasFaceImage = false;
+
+    let spinning = false;
+    let resolved = true;
+    let targetCenters = [0, 0, 0];
+    let currentResult = { type: "lose", symbol: null };
+
+    const faceProbe = new Image();
+    faceProbe.onload = () => {
+      hasFaceImage = true;
+      renderAllReels();
+    };
+    faceProbe.onerror = () => {
+      hasFaceImage = false;
+      renderAllReels();
+    };
+    faceProbe.src = faceSrc;
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.52;
+        masterGain.connect(audioCtx.destination);
+      }
+
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function now() {
+      return audioCtx ? audioCtx.currentTime : 0;
+    }
+
+    function playTone(freq, start, duration, type = "sine", volume = 0.18, endFreq = null) {
+      if (!audioCtx) return;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, start);
+      if (endFreq) {
+        osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), start + duration);
+      }
+
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(volume, start + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+      osc.connect(gain);
+      gain.connect(masterGain);
+      osc.start(start);
+      osc.stop(start + duration + 0.03);
+    }
+
+    function playNoise(start, duration, volume = 0.12) {
+      if (!audioCtx) return;
+
+      const size = Math.floor(audioCtx.sampleRate * duration);
+      const buffer = audioCtx.createBuffer(1, size, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < size; i++) {
+        data[i] = (Math.random() * 2 - 1) * (1 - i / size);
+      }
+
+      const src = audioCtx.createBufferSource();
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(volume, start);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+      src.buffer = buffer;
+      src.connect(gain);
+      gain.connect(masterGain);
+      src.start(start);
+      src.stop(start + duration);
+    }
+
+    function playLeverSound() {
+      ensureAudio();
+      const t = now();
+      playTone(180, t, 0.11, "square", 0.13, 88);
+      playTone(440, t + 0.04, 0.08, "triangle", 0.11, 260);
+      playNoise(t, 0.08, 0.055);
+    }
+
+    function startSpinSound() {
+      if (!audioCtx || spinOsc) return;
+
+      spinOsc = audioCtx.createOscillator();
+      spinGain = audioCtx.createGain();
+      spinLfo = audioCtx.createOscillator();
+      const lfoGain = audioCtx.createGain();
+
+      spinOsc.type = "sawtooth";
+      spinOsc.frequency.value = 92;
+      spinGain.gain.value = 0.035;
+
+      spinLfo.type = "sine";
+      spinLfo.frequency.value = 8;
+      lfoGain.gain.value = 18;
+
+      spinLfo.connect(lfoGain);
+      lfoGain.connect(spinOsc.frequency);
+      spinOsc.connect(spinGain);
+      spinGain.connect(masterGain);
+
+      spinOsc.start();
+      spinLfo.start();
+
+      spinTickTimer = setInterval(() => {
+        if (audioCtx) {
+          const t = now();
+          playTone(360 + Math.random() * 80, t, 0.025, "square", 0.035);
+        }
+      }, 130);
+    }
+
+    function stopSpinSound() {
+      if (!audioCtx || !spinOsc) return;
+
+      const t = now();
+      spinGain.gain.cancelScheduledValues(t);
+      spinGain.gain.setValueAtTime(spinGain.gain.value, t);
+      spinGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+      spinOsc.stop(t + 0.14);
+      spinLfo.stop(t + 0.14);
+      spinOsc = null;
+      spinGain = null;
+      spinLfo = null;
+
+      clearInterval(spinTickTimer);
+      spinTickTimer = null;
+    }
+
+    function playStopSound() {
+      ensureAudio();
+      const t = now();
+      playTone(150, t, 0.07, "triangle", 0.16, 70);
+      playNoise(t, 0.045, 0.08);
+    }
+
+    function playBellWin() {
+      const t = now();
+      [784, 1046, 1318].forEach((f, i) => playTone(f, t + i * 0.08, 0.18, "sine", 0.16));
+      playTone(1975, t + 0.26, 0.28, "triangle", 0.12);
+    }
+
+    function playWatermelonWin() {
+      const t = now();
+      [523, 659, 784, 988].forEach((f, i) => playTone(f, t + i * 0.07, 0.13, "triangle", 0.13));
+      playTone(1318, t + 0.31, 0.17, "sine", 0.1);
+    }
+
+    function playCherryWin() {
+      const t = now();
+      playTone(880, t, 0.08, "sine", 0.15);
+      playTone(1174, t + 0.09, 0.11, "sine", 0.15);
+      playTone(1567, t + 0.2, 0.12, "triangle", 0.12);
+    }
+
+    function playFaceWin() {
+      const t = now();
+      [392, 523, 659, 784, 1046, 1318, 1567].forEach((f, i) => {
+        playTone(f, t + i * 0.075, 0.2, i % 2 ? "triangle" : "square", 0.14);
+      });
+      [523, 659, 784, 1046].forEach((f, i) => {
+        playTone(f, t + 0.62 + i * 0.045, 0.34, "sine", 0.13);
+      });
+      playNoise(t + 0.12, 0.24, 0.06);
+    }
+
+    function renderSymbol(symbol) {
+      if (symbol === "bar") {
+        return `<div class="symbol-inner"><div class="bar-mark">BAR</div></div>`;
+      }
+
+      if (symbol === "face") {
+        if (hasFaceImage) {
+          return `
+            <div class="symbol-inner">
+              <img class="face-photo" src="${faceSrc}" alt="男性の顔">
+            </div>
+          `;
+        }
+
+        return `
+          <div class="symbol-inner">
+            <div class="face-wrap"><span class="face-mouth"></span></div>
+            <span class="label">FACE</span>
+          </div>
+        `;
+      }
+
+      const meta = symbolMeta[symbol];
+      return `
+        <div class="symbol-inner">
+          <span class="icon-text">${meta.text}</span>
+          <span class="label">${meta.label}</span>
+        </div>
+      `;
+    }
+
+    function visibleSymbols(reelIndex, centerIndex) {
+      const strip = reelStrips[reelIndex];
+      const len = strip.length;
+      return [
+        strip[(centerIndex - 1 + len) % len],
+        strip[centerIndex % len],
+        strip[(centerIndex + 1) % len]
+      ];
+    }
+
+    function renderReel(reel) {
+      const symbols = visibleSymbols(reel.index, reel.center);
+      reel.stripEl.innerHTML = symbols.map((symbol) => `<div class="symbol">${renderSymbol(symbol)}</div>`).join("");
+    }
+
+    function renderAllReels() {
+      reels.forEach(renderReel);
+    }
+
+    function randomIndexOfSymbol(reelIndex, symbol) {
+      const matches = reelStrips[reelIndex]
+        .map((value, index) => value === symbol ? index : -1)
+        .filter((index) => index >= 0);
+      return matches[Math.floor(Math.random() * matches.length)];
+    }
+
+    function drawOutcome() {
+      const r = Math.random();
+      if (r < 0.10) return { type: "win", symbol: "face" };
+      if (r < 0.20) return { type: "win", symbol: "bell" };
+      if (r < 0.25) return { type: "win", symbol: "watermelon" };
+      if (r < 0.30) return { type: "win", symbol: "cherry" };
+      return { type: "lose", symbol: null };
+    }
+
+    function decideTargets(outcome) {
+      if (outcome.type === "win") {
+        return [0, 1, 2].map((reelIndex) => randomIndexOfSymbol(reelIndex, outcome.symbol));
+      }
+
+      const winSymbols = ["face", "bell", "watermelon", "cherry"];
+      let targets;
+      let guard = 0;
+
+      do {
+        targets = reelStrips.map((strip) => Math.floor(Math.random() * strip.length));
+        const line = targets.map((target, reelIndex) => reelStrips[reelIndex][target]);
+        const forbiddenWin = winSymbols.some((symbol) => line.every((value) => value === symbol));
+        if (!forbiddenWin) return targets;
+        guard++;
+      } while (guard < 200);
+
+      return [0, 1, 2];
+    }
+
+    function setStatus(text, mode = "") {
+      statusEl.textContent = text;
+      statusEl.className = `status ${mode}`.trim();
+    }
+
+    function pullLeverAnimation() {
+      leverEl.classList.add("pulled");
+      setTimeout(() => leverEl.classList.remove("pulled"), 190);
+    }
+
+    function setStopButtonsEnabled(enabled) {
+      stopButtons.forEach((button, index) => {
+        button.disabled = !enabled || !reels[index].spinning;
+      });
+    }
+
+    function startReel(reel) {
+      reel.spinning = true;
+      reel.stopped = false;
+      reel.el.classList.add("spinning");
+
+      clearInterval(reel.timer);
+      reel.timer = setInterval(() => {
+        const strip = reelStrips[reel.index];
+        reel.center = (reel.center + 1) % strip.length;
+        renderReel(reel);
+      }, reel.tickMs);
+    }
+
+    function startGame() {
+      ensureAudio();
+
+      if (spinning || !resolved) {
+        pullLeverAnimation();
+        playLeverSound();
+        return;
+      }
+
+      spinning = true;
+      resolved = false;
+      currentResult = drawOutcome();
+      targetCenters = decideTargets(currentResult);
+
+      setStatus("回転中");
+      pullLeverAnimation();
+      playLeverSound();
+      startSpinSound();
+
+      reels.forEach(startReel);
+      setStopButtonsEnabled(true);
+    }
+
+    function stopReel(index) {
+      const reel = reels[index];
+      if (!spinning || !reel.spinning) return;
+
+      stopButtons[index].classList.add("pressed");
+      setTimeout(() => stopButtons[index].classList.remove("pressed"), 120);
+
+      clearInterval(reel.timer);
+      reel.timer = null;
+      reel.center = targetCenters[index];
+      reel.spinning = false;
+      reel.stopped = true;
+      reel.el.classList.remove("spinning");
+      renderReel(reel);
+      playStopSound();
+      setStopButtonsEnabled(true);
+
+      if (reels.every((item) => item.stopped)) {
+        finishGame();
+      }
+    }
+
+    function finishGame() {
+      spinning = false;
+      resolved = true;
+      stopSpinSound();
+      setStopButtonsEnabled(false);
+
+      const line = reels.map((reel) => reelStrips[reel.index][reel.center]);
+      const symbol = line[0];
+
+      if (
+        line.every((value) => value === symbol) &&
+        ["face", "bell", "watermelon", "cherry"].includes(symbol)
+      ) {
+        showWin(symbol);
+      } else {
+        setStatus("MISS - もう一度レバーを下げてね");
+      }
+    }
+
+    function showWin(symbol) {
+      if (symbol === "face") {
+        setStatus(winMessages.face, "big");
+        flashEl.classList.remove("show");
+        void flashEl.offsetWidth;
+        flashEl.classList.add("show");
+
+        gameEl.classList.remove("big-shake");
+        cabinetEl.classList.remove("big-glow");
+        void gameEl.offsetWidth;
+        gameEl.classList.add("big-shake");
+        cabinetEl.classList.add("big-glow");
+
+        playFaceWin();
+
+        setTimeout(() => {
+          gameEl.classList.remove("big-shake");
+          cabinetEl.classList.remove("big-glow");
+        }, 900);
+        return;
+      }
+
+      setStatus(winMessages[symbol], "win");
+
+      if (symbol === "bell") playBellWin();
+      if (symbol === "watermelon") playWatermelonWin();
+      if (symbol === "cherry") playCherryWin();
+    }
+
+    function bindPointer(button, handler) {
+      button.addEventListener("pointerdown", (event) => {
+        event.preventDefault();
+        handler(event);
+      }, { passive: false });
+
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+      });
+    }
+
+    bindPointer(leverEl, startGame);
+    stopButtons.forEach((button, index) => bindPointer(button, () => stopReel(index)));
+
+    window.addEventListener("keydown", (event) => {
+      if (event.repeat) return;
+
+      if (event.code === "Space" || event.code === "Enter") {
+        event.preventDefault();
+        startGame();
+      }
+
+      if (event.key === "1") stopReel(0);
+      if (event.key === "2") stopReel(1);
+      if (event.key === "3") stopReel(2);
+    });
+
+    window.addEventListener("pagehide", () => {
+      stopSpinSound();
+      reels.forEach((reel) => clearInterval(reel.timer));
+    });
+
+    renderAllReels();
+  </script>
+</body>
+</html>
