@@ -32,7 +32,8 @@
         linear-gradient(180deg, #fff7fb 0%, #ffd7ea 48%, #ffacd4 100%);
       color: var(--ink);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       touch-action: manipulation;
     }
 
@@ -46,8 +47,8 @@
 
     .game {
       width: min(100%, 430px);
-      height: min(100dvh - 24px, 820px);
-      min-height: 620px;
+      height: auto;
+      min-height: min(100dvh - 24px, 760px);
       display: flex;
       flex-direction: column;
       position: relative;
@@ -57,8 +58,8 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      padding: 14px 12px 16px;
+      gap: 10px;
+      padding: 12px 10px 14px;
       border: 5px solid #ffb1d6;
       border-radius: 28px;
       background:
@@ -72,7 +73,7 @@
     }
 
     .title-panel {
-      min-height: 86px;
+      min-height: 76px;
       border-radius: 18px;
       border: 3px solid #fff8c8;
       background: linear-gradient(180deg, #fffbdf 0%, #ffd965 48%, #ffb731 100%);
@@ -123,12 +124,12 @@
 
     .reel-area {
       flex: 1;
-      min-height: 300px;
+      min-height: 250px;
       border-radius: 20px;
       border: 5px solid #c72a82;
       background:
         linear-gradient(180deg, #601c46 0%, #922461 8%, #ffe5f1 8.5%, #fff8fc 92%, #721c50 92.5%, #441632 100%);
-      padding: 30px 12px;
+      padding: 22px 10px;
       position: relative;
       box-shadow: inset 0 0 0 4px rgba(255,255,255,0.36), 0 8px 0 #b7287a;
       display: grid;
@@ -167,8 +168,8 @@
     .payline::after { right: -8px; }
 
     .reels {
-      height: min(46vh, 350px);
-      min-height: 290px;
+      height: clamp(230px, 38dvh, 310px);
+      min-height: 230px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
@@ -240,8 +241,31 @@
     }
 
     .icon-text {
-      font-size: clamp(2.15rem, 13vw, 4rem);
+      width: 92%;
+      min-height: 46%;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      border: 4px solid rgba(255,255,255,0.9);
+      font-size: clamp(1.05rem, 5.5vw, 1.7rem);
+      font-weight: 950;
       text-shadow: 0 3px 0 rgba(92, 20, 58, 0.12);
+      box-shadow: 0 5px 0 rgba(126, 23, 75, 0.18);
+    }
+
+    .icon-text.bell {
+      color: #714400;
+      background: linear-gradient(180deg, #fff2a8, #ffd353 58%, #eaa328);
+    }
+
+    .icon-text.watermelon {
+      color: #075d38;
+      background: linear-gradient(135deg, #45d887 0 42%, #fff 43% 48%, #ff577a 49% 100%);
+    }
+
+    .icon-text.cherry {
+      color: #fff;
+      background: linear-gradient(180deg, #ff7894, #e7194c 65%, #9d0d32);
     }
 
     .label {
@@ -328,7 +352,7 @@
     }
 
     .status {
-      min-height: 58px;
+      min-height: 50px;
       border-radius: 15px;
       border: 3px solid #fff;
       background: linear-gradient(180deg, #fffaff, #ffe3f1);
@@ -356,7 +380,7 @@
     }
 
     .controls {
-      min-height: 138px;
+      min-height: 118px;
       border-radius: 20px;
       border: 4px solid #b92379;
       background: linear-gradient(180deg, #ffe9f4, #ffabd2 58%, #f66aaa);
@@ -364,7 +388,7 @@
         inset 0 3px 0 rgba(255,255,255,0.55),
         inset 0 -8px 0 rgba(166, 22, 92, 0.2),
         0 8px 0 #a91e68;
-      padding: 12px 10px 14px;
+      padding: 10px 8px 12px;
       display: grid;
       grid-template-columns: 0.84fr repeat(3, 1fr);
       align-items: end;
@@ -372,7 +396,7 @@
     }
 
     .lever-zone {
-      height: 112px;
+      height: 96px;
       display: grid;
       place-items: end center;
       position: relative;
@@ -444,7 +468,7 @@
 
     .stop-button {
       min-width: 0;
-      height: 88px;
+      height: 76px;
       border: 4px solid #fff;
       border-radius: 18px;
       background:
@@ -547,7 +571,7 @@
         </h1>
       </header>
 
-      <section class="reel-area" aria-label="3繝ｪ繝ｼ繝ｫ繧ｹ繝ｭ繝・ヨ">
+      <section class="reel-area" aria-label="3リールスロット">
         <div class="payline" aria-hidden="true"></div>
         <div class="reels">
           <div class="reel" id="reel0"><div class="strip"></div></div>
@@ -556,11 +580,11 @@
         </div>
       </section>
 
-      <div class="status" id="status" aria-live="polite">繝ｬ繝舌・繧剃ｸ九￡縺ｦ繧ｹ繧ｿ繝ｼ繝・/div>
+      <div class="status" id="status" aria-live="polite">PULL LEVER TO START</div>
 
-      <section class="controls" aria-label="謫堺ｽ懊・繧ｿ繝ｳ">
+      <section class="controls" aria-label="操作ボタン">
         <div class="lever-zone">
-          <button class="lever-button" id="lever" type="button" aria-label="繧ｹ繧ｿ繝ｼ繝医Ξ繝舌・">
+          <button class="lever-button" id="lever" type="button" aria-label="スタートレバー">
             <span class="lever-slot"></span>
             <span class="lever-stick"></span>
             <span class="lever-knob"></span>
@@ -586,9 +610,9 @@
     ];
 
     const symbolMeta = {
-      bell: { text: "粕", label: "BELL" },
-      watermelon: { text: "拷", label: "WATER" },
-      cherry: { text: "穀", label: "CHERRY" },
+      bell: { text: "BELL", label: "BELL" },
+      watermelon: { text: "WTR", label: "WATER" },
+      cherry: { text: "CHRY", label: "CHERRY" },
       bar: { text: "BAR", label: "" },
       face: { text: "", label: "FACE" }
     };
@@ -805,7 +829,7 @@
         if (hasFaceImage) {
           return `
             <div class="symbol-inner">
-              <img class="face-photo" src="${faceSrc}" alt="逕ｷ諤ｧ縺ｮ鬘・>
+              <img class="face-photo" src="${faceSrc}" alt="男性の顔">
             </div>
           `;
         }
@@ -821,7 +845,7 @@
       const meta = symbolMeta[symbol];
       return `
         <div class="symbol-inner">
-          <span class="icon-text">${meta.text}</span>
+          <span class="icon-text ${symbol}">${meta.text}</span>
           <span class="label">${meta.label}</span>
         </div>
       `;
@@ -925,7 +949,7 @@
       currentResult = drawOutcome();
       targetCenters = decideTargets(currentResult);
 
-      setStatus("蝗櫁ｻ｢荳ｭ");
+      setStatus("SPINNING");
       pullLeverAnimation();
       playLeverSound();
       startSpinSound();
@@ -971,7 +995,7 @@
       ) {
         showWin(symbol);
       } else {
-        setStatus("MISS - 繧ゅ≧荳蠎ｦ繝ｬ繝舌・繧剃ｸ九￡縺ｦ縺ｭ");
+        setStatus("MISS - TRY AGAIN");
       }
     }
 
@@ -1040,4 +1064,3 @@
   </script>
 </body>
 </html>
-
